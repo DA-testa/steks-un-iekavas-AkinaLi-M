@@ -1,4 +1,5 @@
 # python3
+# 221RDB124 Veronika Musijaka 13.gr
 
 from collections import namedtuple
 
@@ -14,40 +15,28 @@ def find_mismatch(text):
     for i, next in enumerate(text):
         if next in "([{":
             # Process opening bracket, write your code here
-            opening_brackets_stack.append(i)
+            opening_brackets_stack.append(Bracket(next, i + 1))
             
 
         if next in ")]}":
             # Process closing bracket, write your code here
-            if len(opening_brackets_stack) == 0:
+            if not opening_brackets_stack or not are_matching(opening_brackets_stack[-1].char, next):
                 return i + 1
-            
-            for s in range(len(opening_brackets_stack) - 1, -1, -1):
-                if opening_brackets_stack[s][1] in "([{":
-                    if are_matching(opening_brackets_stack[s][1]):
-                        opening_brackets_stack = opening_brackets_stack.pop(j)
-                        break
-                    else:
-                        return i + 1
-        
-     if len(opening_brackets_stack) == 1:
-        return opening_brackets_stack[0][0] + 1
-      else:
-        return 0
+            opening_brackets_stack.pop()
+        if opening_brackets_stack:
+            return opening_brackets_stack[0].position
+        else:
+            return "Success"
             
             
-
-
 def main():
     text = input()
-    mismatch = find_mismatch(text)
-    # Printing answer, write your code here
-    if mismatch != 0:
+    if text in 'I':
+        text = input()
+        mismatch = find_mismatch(text)
         print(mismatch)
-        return 0
-    else: print("Success")
-        return 0
-
-
+   
+    # Printing answer, write your code here
+        
 if __name__ == "__main__":
     main()
